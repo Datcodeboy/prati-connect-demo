@@ -1,20 +1,22 @@
-self.addEventListener('install', (e) => {
-    e.waitUntil(
-      caches.open('prati-cache').then((cache) => {
-        return cache.addAll([
-          '/',
-          '/index.html',
-          '/manifest.json'
-          // Add more files here if needed
-        ]);
-      })
-    );
-  });
-  
-  self.addEventListener('fetch', (e) => {
-    e.respondWith(
-      caches.match(e.request).then((response) => {
-        return response || fetch(e.request);
-      })
-    );
-  });
+const CACHE_NAME = "prati-connect-cache-v1";
+const urlsToCache = [
+  "index.html",
+  "manifest.json",
+  "https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg"
+];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(urlsToCache);
+    })
+  );
+});
+
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});

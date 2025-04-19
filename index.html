@@ -148,12 +148,16 @@
       <img id="product-image" src="" alt="Product" style="max-width:100%;margin-top:1rem;border-radius:8px;">
       <p><strong>Batch:</strong> <span id="product-batch"></span></p>
       <p><strong>Expiration:</strong> <span id="product-expiration"></span></p>
-      <p><strong>Language:</strong> <select id="lang" onchange="changeLang()">
-        <option value="en">English</option>
-        <option value="pt">Português</option>
-        <option value="fr">Français</option>
-        <option value="es">Español</option>
-      </select></p>
+      <p>
+        <strong>Language:</strong>
+        <select id="lang" onchange="changeLang()">
+          <option value="en">English</option>
+          <option value="pt">Português</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+        </select>
+        <a id="leaflet-download" href="leaflets/leaflet-en.pdf" target="_blank" class="btn" style="margin-left: 1rem;">📄 Download PDF</a>
+      </p>
       <div id="leaflet">
         <p>This is a sample patient information leaflet in English.</p>
       </div>
@@ -175,7 +179,7 @@
   <footer>
     <p>Created by Albert Tchancy Pierre Paul — <strong>Demo site, not official</strong>.</p>
     <p>📧 <a href="mailto:Datecodeboy@null.net">Datecodeboy@null.net</a> | 📞 +55 45 99125-7789</p>
-    <p>⬇️ <a href="https://your-link.com/prati-connect-demo.zip" download>Download Prati-Connect Demo</a></p>
+    <p>⬇️ <a href="https://github.com/Datcodeboy/prati-connect-demo/raw/main/prati-connect-demo.zip" download>Download Prati-Connect Demo</a></p>
   </footer>
 
   <script>
@@ -203,7 +207,7 @@
         document.getElementById('product-batch').textContent = product.batch;
         document.getElementById('product-expiration').textContent = product.expiration;
         document.getElementById('product-section').style.display = 'block';
-        changeLang(); // update leaflet on display
+        changeLang();
       } else {
         alert('Product not found. Please check the QR code or try a valid one.');
       }
@@ -212,13 +216,23 @@
     function changeLang() {
       const lang = document.getElementById('lang').value;
       const leaflet = document.getElementById('leaflet');
+      const downloadLink = document.getElementById('leaflet-download');
       const translations = {
         en: "This is a sample patient information leaflet in English.",
         pt: "Este é um exemplo de bula do paciente em português.",
         fr: "Ceci est une notice d'information pour le patient en français.",
         es: "Este es un folleto informativo para el paciente en español."
       };
+      const downloadPaths = {
+        en: "leaflets/leaflet-en.pdf",
+        pt: "leaflets/leaflet-pt.pdf",
+        fr: "leaflets/leaflet-fr.pdf",
+        es: "leaflets/leaflet-es.pdf"
+      };
       leaflet.innerHTML = `<p>${translations[lang]}</p>`;
+      if (downloadLink) {
+        downloadLink.href = downloadPaths[lang];
+      }
     }
 
     function shareWhatsApp() {
