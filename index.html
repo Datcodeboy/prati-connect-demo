@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prati-Connect Demo</title>
+  <link rel="icon" href="https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg" type="image/jpeg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#190033">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #190033;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header img {
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    main {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .qr-input {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .qr-input input {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      background: #190033;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .product-info {
+      margin-top: 2rem;
+    }
+    select {
+      padding: 0.3rem;
+    }
+    #reader {
+      width: 100%;
+      max-width: 400px;
+      margin: auto;
+    }
+    footer {
+      background: #190033;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #bbaaff;
+      text-decoration: none;
+    }
+    .feedback-form {
+      margin-top: 3rem;
+      border-top: 1px solid #ccc;
+      padding-top: 2rem;
+    }
+    .feedback-form input, .feedback-form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .feedback-form button {
+      background: #190033;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 1rem;
+        margin: 1rem;
+      }
+      .qr-input input, .btn, select {
+        font-size: 1rem;
+        padding: 0.75rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg" alt="Prati-Donaduzzi Logo" />
+    <h1>Prati-Connect</h1>
+    <p>Smart Serialization & Multilingual Product Info</p>
+  </header>
+
+  <main>
+    <section class="qr-input">
+      <label for="code">Enter or Scan QR Code:</label>
+      <input type="text" id="code" placeholder="Example: PRT123456789" />
+      <button class="btn" onclick="showProductInfo()">Verify Product</button>
+      <div id="reader"></div>
+    </section>
+
+    <section id="product-section" class="product-info" style="display:none">
+      <h2>Product Verified ✅</h2>
+      <p><strong>Product:</strong> <span id="product-name"></span></p>
+      <img id="product-image" src="" alt="Product" style="max-width:100%;margin-top:1rem;border-radius:8px;">
+      <p><strong>Batch:</strong> <span id="product-batch"></span></p>
+      <p><strong>Expiration:</strong> <span id="product-expiration"></span></p>
+      <p><strong>Language:</strong> <select id="lang" onchange="changeLang()">
+        <option value="en">English</option>
+        <option value="pt">Português</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+      </select></p>
+      <div id="leaflet">
+        <p>This is a sample patient information leaflet in English.</p>
+      </div>
+    </section>
+
+    <section class="feedback-form">
+      <h2>💬 Feedback or Contact Us</h2>
+      <p>Send us your suggestions, feedback, or report an issue:</p>
+      <form onsubmit="event.preventDefault(); alert('Thanks for your message!'); this.reset();">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea rows="4" placeholder="Your message here..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Created by Albert Tchancy Pierre Paul — <strong>Demo site, not official</strong>.</p>
+    <p>📧 <a href="mailto:Datecodeboy@null.net">Datecodeboy@null.net</a> | 📞 +55 45 99125-7789</p>
+  </footer>
+
+  <script>
+    const fakeDB = {
+      'PRT123456789': {
+        name: 'Dipirona 500mg',
+        image: 'https://th.bing.com/th/id/OIP.XsZQgZ3BD7kwXmsxy6E_cwHaHa?w=215&h=215&c=7&r=0&o=5&pid=1.7',
+        batch: '23APR25-DP700',
+        expiration: '04/2027'
+      },
+      'PRT987654321': {
+        name: 'Paracetamol 500mg',
+        image: 'https://th.bing.com/th/id/OIP.L0KMBH12gbg8CxNwg-x7WwHaHa?w=170&h=180&c=7&r=0&o=5&pid=1.7',
+        batch: '23APR25-PC500',
+        expiration: '06/2026'
+      }
+    };
+
+    function showProductInfo() {
+      const code = document.getElementById('code').value.trim();
+      const product = fakeDB[code];
+      if (product) {
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-image').src = product.image;
+        document.getElementById('product-batch').textContent = product.batch;
+        document.getElementById('product-expiration').textContent = product.expiration;
+        document.getElementById('product-section').style.display = 'block';
+        changeLang(); // update leaflet on display
+      } else {
+        alert('Product not found. Please check the QR code or try a valid one.');
+      }
+    }
+
+    function changeLang() {
+      const lang = document.getElementById('lang').value;
+      const leaflet = document.getElementById('leaflet');
+      const translations = {
+        en: "This is a sample patient information leaflet in English.",
+        pt: "Este é um exemplo de bula do paciente em português.",
+        fr: "Ceci est une notice d'information pour le patient en français.",
+        es: "Este es un folleto informativo para el paciente en español."
+      };
+      leaflet.innerHTML = `<p>${translations[lang]}</p>`;
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+      document.getElementById('code').value = decodedText;
+      showProductInfo();
+      html5QrcodeScanner.clear();
+    }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess);
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registered:', reg))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
