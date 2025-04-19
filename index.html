@@ -99,6 +99,16 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    .share-btn {
+      background-color: #25D366;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
     @media (max-width: 600px) {
       main {
         padding: 1rem;
@@ -147,6 +157,7 @@
       <div id="leaflet">
         <p>This is a sample patient information leaflet in English.</p>
       </div>
+      <button class="share-btn" onclick="shareWhatsApp()">📤 Compartilhar via WhatsApp</button>
     </section>
 
     <section class="feedback-form">
@@ -164,6 +175,7 @@
   <footer>
     <p>Created by Albert Tchancy Pierre Paul — <strong>Demo site, not official</strong>.</p>
     <p>📧 <a href="mailto:Datecodeboy@null.net">Datecodeboy@null.net</a> | 📞 +55 45 99125-7789</p>
+    <p>⬇️ <a href="https://your-link.com/prati-connect-demo.zip" download>Download Prati-Connect Demo</a></p>
   </footer>
 
   <script>
@@ -209,6 +221,15 @@
       leaflet.innerHTML = `<p>${translations[lang]}</p>`;
     }
 
+    function shareWhatsApp() {
+      const name = document.getElementById('product-name').textContent;
+      const batch = document.getElementById('product-batch').textContent;
+      const expiration = document.getElementById('product-expiration').textContent;
+      const text = `📦 Produto Verificado:\n\nNome: ${name}\nLote: ${batch}\nValidade: ${expiration}\nVerificado via Prati-Connect ✅`;
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+
     function onScanSuccess(decodedText, decodedResult) {
       document.getElementById('code').value = decodedText;
       showProductInfo();
@@ -229,3 +250,4 @@
   </script>
 </body>
 </html>
+
