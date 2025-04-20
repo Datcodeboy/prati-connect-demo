@@ -1,6 +1,6 @@
 {
   "name": "Prati-Connect",
-  "short_name": "Prati",
+  "short_name": "PratiConnect",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#2a0f4c",
@@ -13,6 +13,7 @@
     }
   ]
 }
+
 
 
 
