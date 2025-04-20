@@ -11,10 +11,9 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f0f8;
+      background: #2a0f4c;
       margin: 0;
       padding: 0;
-      background-color: #1e0a35;
       color: white;
     }
     header {
@@ -52,6 +51,9 @@
       text-decoration: none;
       margin: 1rem 0;
       font-weight: bold;
+    }
+    .sidebar a:hover {
+      text-decoration: underline;
     }
     header img {
       height: 60px;
@@ -99,16 +101,17 @@
       padding: 2rem;
       max-width: 800px;
       margin: auto;
-      background: #2f1b52;
+      background: #3b1e5e;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
-    .qr-input {
+    .qr-input, .product-auth {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      margin-top: 2rem;
     }
-    .qr-input input {
+    .qr-input input, .product-auth input {
       padding: 0.5rem;
       font-size: 1rem;
     }
@@ -123,6 +126,12 @@
     }
     .product-info {
       margin-top: 2rem;
+    }
+    .response-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #563d7c;
+      border-radius: 6px;
     }
     select {
       padding: 0.3rem;
@@ -214,6 +223,8 @@
     <a href="#features">Features</a>
     <a href="#contact">Contact</a>
     <a href="#fidelity">Fidelity Community</a>
+    <a href="#login">Login</a>
+    <a href="#register">Create Account</a>
   </div>
   <header>
     <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
@@ -234,11 +245,17 @@
   </section>
 
   <main>
+    <section class="product-auth">
+      <h2>🔍 Verify Your Medication</h2>
+      <p>Enter the product code to check authenticity:</p>
+      <input type="text" id="productCode" placeholder="Enter Product Code" />
+      <button class="btn" onclick="verifyProduct()">Verify</button>
+      <div id="verificationResult" class="response-box"></div>
+    </section>
+
     <section id="fidelity">
       <h2>Fidelity Community</h2>
-      <p>Join our customer community. Create an account or log in to access your personalized dashboard.</p>
-      <button class="btn">Login</button>
-      <button class="btn">Create Account</button>
+      <p>Join our customer community to gain access to exclusive insights and rewards.</p>
     </section>
   </main>
 
@@ -254,7 +271,25 @@
 
     function setLanguage(lang) {
       alert('Language switched to: ' + lang);
-      // You can replace alert with real translation toggle logic
+    }
+
+    function verifyProduct() {
+      const code = document.getElementById('productCode').value.trim();
+      const resultBox = document.getElementById('verificationResult');
+
+      if (!code) {
+        resultBox.innerText = "Please enter a product code.";
+        resultBox.style.color = "#FFD700";
+        return;
+      }
+
+      if (code === "PRT-123" || code === "PRT-456") {
+        resultBox.innerText = "✅ This product is authentic and registered by Prati-Donaduzzi.";
+        resultBox.style.color = "#00FF7F";
+      } else {
+        resultBox.innerText = "❌ Code not recognized. Please check and try again.";
+        resultBox.style.color = "#FF6347";
+      }
     }
   </script>
 </body>

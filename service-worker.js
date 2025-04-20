@@ -1,25 +1,22 @@
-const CACHE_NAME = 'prati-connect-cache-v2';
+const CACHE_NAME = 'prati-connect-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/manifest.json',
-  'https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg',
-  'https://th.bing.com/th/id/OIP.P35wYDopyu9dJz2qQSKCsQAAAA?w=300&h=210&rs=1&pid=ImgDetMain'
+  '/manifest.json'
 ];
 
-self.addEventListener('install', event => {
+self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
+    caches.open(CACHE_NAME).then(function(cache) {
       return cache.addAll(urlsToCache);
     })
   );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request).then(response => {
+    caches.match(event.request).then(function(response) {
       return response || fetch(event.request);
     })
   );
 });
-
