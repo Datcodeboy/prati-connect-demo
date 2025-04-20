@@ -43,7 +43,7 @@
       gap: 1rem;
       margin-top: 2rem;
     }
-    .qr-input input, .product-auth input {
+    .qr-input input, .product-auth input, .feedback input, .feedback textarea, .lang-select {
       padding: 0.5rem;
       font-size: 1rem;
     }
@@ -114,6 +114,14 @@
       <input type="text" id="productCode" placeholder="Enter Product Code" />
       <button class="btn" onclick="verifyProduct()">Verify</button>
       <div id="verificationResult" class="response-box"></div>
+
+      <label for="languageSelect">🌐 Select Language:</label>
+      <select id="languageSelect" class="lang-select" onchange="translateProductInfo()">
+        <option value="en">English</option>
+        <option value="pt">Português</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+      </select>
     </section>
 
     <section class="qr-input">
@@ -124,7 +132,9 @@
     <section class="feedback">
       <h2>💬 Feedback</h2>
       <p>Let us know about your experience:</p>
-      <textarea rows="4" style="padding: 0.5rem; font-size: 1rem;"></textarea>
+      <input type="text" placeholder="Your Name" />
+      <input type="email" placeholder="Your Email" />
+      <textarea rows="4" placeholder="Your Feedback"></textarea>
       <button class="btn">Submit Feedback</button>
     </section>
   </main>
@@ -137,19 +147,36 @@
     const medications = {
       "PRT123456789": {
         name: "Dipirona 500mg",
-        description: "Pain reliever and fever reducer.",
+        description: {
+          en: "Pain reliever and fever reducer.",
+          pt: "Analgésico e antipirético.",
+          fr: "Antidouleur et antipyrétique.",
+          es: "Analgésico y antipirético."
+        },
+        expiration: "2026-03-01",
+        batch: "L123456",
         image: "https://raichu-uploads.s3.amazonaws.com/dipirona.jpg"
       },
       "PRT987654321": {
-        name: "Paracetamol 500mg",
-        description: "Common analgesic and antipyretic.",
+        name: "Paracetamol 700mg",
+        description: {
+          en: "Common analgesic and antipyretic.",
+          pt: "Analgésico e antipirético comum.",
+          fr: "Analgésique et antipyrétique courant.",
+          es: "Analgésico y antipirético común."
+        },
+        expiration: "2025-12-15",
+        batch: "B987321",
         image: "https://raichu-uploads.s3.amazonaws.com/paracetamol.jpg"
       }
     };
 
+    let currentCode = "";
+
     function verifyProduct() {
       const code = document.getElementById('productCode').value.trim();
       const resultBox = document.getElementById('verificationResult');
+      currentCode = code;
 
       if (!code) {
         resultBox.innerText = "Please enter a product code.";
@@ -159,7 +186,12 @@
 
       const med = medications[code];
       if (med) {
-        resultBox.innerHTML = `✅ <strong>${med.name}</strong><br>${med.description}<br><img src="${med.image}" alt="${med.name}" style="margin-top:10px; max-width: 100%; border-radius: 6px;">`;
+        const lang = document.getElementById('languageSelect').value;
+        resultBox.innerHTML = `✅ <strong>${med.name}</strong><br>
+          ${med.description[lang]}<br>
+          <b>Batch:</b> ${med.batch}<br>
+          <b>Expiration:</b> ${med.expiration}<br>
+          <img src="${med.image}" alt="${med.name}" style="margin-top:10px; max-width: 100%; border-radius: 6px;">`;
         resultBox.style.color = "#00FF7F";
       } else {
         resultBox.innerText = "❌ Code not recognized. Please check and try again.";
@@ -167,8 +199,12 @@
       }
     }
 
-    const html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader", { fps: 10, qrbox: 250 });
+    function translateProductInfo() {
+      if (!currentCode || !medications[currentCode]) return;
+      verifyProduct();
+    }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
     html5QrcodeScanner.render((decodedText, decodedResult) => {
       document.getElementById('productCode').value = decodedText;
       verifyProduct();
