@@ -134,6 +134,19 @@
   </footer>
 
   <script>
+    const medications = {
+      "PRT123456789": {
+        name: "Dipirona 500mg",
+        description: "Pain reliever and fever reducer.",
+        image: "https://raichu-uploads.s3.amazonaws.com/dipirona.jpg"
+      },
+      "PRT987654321": {
+        name: "Paracetamol 500mg",
+        description: "Common analgesic and antipyretic.",
+        image: "https://raichu-uploads.s3.amazonaws.com/paracetamol.jpg"
+      }
+    };
+
     function verifyProduct() {
       const code = document.getElementById('productCode').value.trim();
       const resultBox = document.getElementById('verificationResult');
@@ -144,8 +157,9 @@
         return;
       }
 
-      if (code === "PRT-123" || code === "PRT-456") {
-        resultBox.innerText = "✅ This product is authentic and registered by Prati-Donaduzzi.";
+      const med = medications[code];
+      if (med) {
+        resultBox.innerHTML = `✅ <strong>${med.name}</strong><br>${med.description}<br><img src="${med.image}" alt="${med.name}" style="margin-top:10px; max-width: 100%; border-radius: 6px;">`;
         resultBox.style.color = "#00FF7F";
       } else {
         resultBox.innerText = "❌ Code not recognized. Please check and try again.";
@@ -162,4 +176,3 @@
   </script>
 </body>
 </html>
-
