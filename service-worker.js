@@ -1,12 +1,19 @@
 self.addEventListener("install", event => {
-  console.log("Service Worker installing...");
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", event => {
-  console.log("Service Worker activated.");
+  event.waitUntil(
+    caches.open("prati-cache").then(cache => {
+      return cache.addAll([
+        "/",
+        "/index.html",
+        "/manifest.json"
+      ]);
+    })
+  );
 });
 
 self.addEventListener("fetch", event => {
-  // Optional: custom fetch handling
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
 });

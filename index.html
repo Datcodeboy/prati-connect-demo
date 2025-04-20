@@ -115,6 +115,18 @@
       <button class="btn" onclick="verifyProduct()">Verify</button>
       <div id="verificationResult" class="response-box"></div>
     </section>
+
+    <section class="qr-input">
+      <h2>📷 Scan QR Code</h2>
+      <div id="reader"></div>
+    </section>
+
+    <section class="feedback">
+      <h2>💬 Feedback</h2>
+      <p>Let us know about your experience:</p>
+      <textarea rows="4" style="padding: 0.5rem; font-size: 1rem;"></textarea>
+      <button class="btn">Submit Feedback</button>
+    </section>
   </main>
 
   <footer>
@@ -140,6 +152,14 @@
         resultBox.style.color = "#FF6347";
       }
     }
+
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render((decodedText, decodedResult) => {
+      document.getElementById('productCode').value = decodedText;
+      verifyProduct();
+    });
   </script>
 </body>
 </html>
+
