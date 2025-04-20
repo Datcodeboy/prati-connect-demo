@@ -1,11 +1,11 @@
 {
-  "name": "Prati-Connect Demo",
+  "name": "Prati-Connect Web App",
   "short_name": "PratiConnect",
-  "start_url": "index.html",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#190033",
-  "theme_color": "#190033",
-  "orientation": "portrait",
+  "background_color": "#1e0a35",
+  "theme_color": "#6A0DAD",
+  "description": "Smart Serialization & Multilingual Product Info",
   "icons": [
     {
       "src": "https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg",
@@ -14,5 +14,3 @@
     }
   ]
 }
-
-  
