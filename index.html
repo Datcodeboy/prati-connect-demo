@@ -20,40 +20,7 @@
       background: #6A0DAD;
       color: white;
       padding: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-    }
-    .menu-toggle {
-      font-size: 1.5rem;
-      cursor: pointer;
-      display: inline-block;
-    }
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 250px;
-      height: 100%;
-      background: #4B0082;
-      color: white;
-      padding: 2rem 1rem;
-      transition: left 0.3s ease;
-      z-index: 999;
-    }
-    .sidebar.active {
-      left: 0;
-    }
-    .sidebar a {
-      display: block;
-      color: white;
-      text-decoration: none;
-      margin: 1rem 0;
-      font-weight: bold;
-    }
-    .sidebar a:hover {
-      text-decoration: underline;
+      text-align: center;
     }
     header img {
       height: 60px;
@@ -61,41 +28,6 @@
     header h1 {
       margin: 0;
       font-size: 1.5rem;
-    }
-    .header-center {
-      text-align: center;
-      flex: 1;
-    }
-    .welcome-section {
-      background-image: url('https://th.bing.com/th/id/OIP.P35wYDopyu9dJz2qQSKCsQAAAA?w=300&h=210&rs=1&pid=ImgDetMain');
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      text-align: center;
-      color: white;
-      padding: 4rem 2rem;
-    }
-    .welcome-section::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 0;
-    }
-    .welcome-section h2, .welcome-section p {
-      position: relative;
-      z-index: 1;
-    }
-    .welcome-section {
-      animation: fadeIn 2s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
     main {
       padding: 2rem;
@@ -133,9 +65,6 @@
       background-color: #563d7c;
       border-radius: 6px;
     }
-    select {
-      padding: 0.3rem;
-    }
     #reader {
       width: 100%;
       max-width: 400px;
@@ -152,52 +81,6 @@
     footer a {
       color: #ddd0ff;
       text-decoration: none;
-    }
-    .feedback-form {
-      margin-top: 3rem;
-      border-top: 1px solid #ccc;
-      padding-top: 2rem;
-    }
-    .feedback-form input, .feedback-form textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    .feedback-form button {
-      background: #6A0DAD;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .share-btn {
-      background-color: #25D366;
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 1rem;
-    }
-    .lang-toggle {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-    }
-    .lang-toggle button {
-      background: transparent;
-      border: 1px solid white;
-      color: white;
-      margin-left: 0.5rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      cursor: pointer;
     }
     @media (max-width: 600px) {
       main {
@@ -218,31 +101,11 @@
   </style>
 </head>
 <body>
-  <div class="sidebar" id="sidebar">
-    <a href="#">Home</a>
-    <a href="#features">Features</a>
-    <a href="#contact">Contact</a>
-    <a href="#fidelity">Fidelity Community</a>
-    <a href="#login">Login</a>
-    <a href="#register">Create Account</a>
-  </div>
   <header>
-    <span class="menu-toggle" onclick="toggleSidebar()">&#9776;</span>
-    <div class="header-center">
-      <img src="https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg" alt="Prati-Donaduzzi Logo" />
-      <h1>Prati-Connect</h1>
-      <p>Smart Serialization & Multilingual Product Info</p>
-    </div>
-    <div class="lang-toggle">
-      <button onclick="setLanguage('en')">EN</button>
-      <button onclick="setLanguage('pt')">PT</button>
-    </div>
+    <img src="https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg" alt="Prati-Donaduzzi Logo" />
+    <h1>Prati-Connect</h1>
+    <p>Smart Serialization & Multilingual Product Info</p>
   </header>
-
-  <section class="welcome-section">
-    <h2>👋 Welcome to Prati-Connect</h2>
-    <p>Your gateway to smart pharmaceutical verification</p>
-  </section>
 
   <main>
     <section class="product-auth">
@@ -252,11 +115,6 @@
       <button class="btn" onclick="verifyProduct()">Verify</button>
       <div id="verificationResult" class="response-box"></div>
     </section>
-
-    <section id="fidelity">
-      <h2>Fidelity Community</h2>
-      <p>Join our customer community to gain access to exclusive insights and rewards.</p>
-    </section>
   </main>
 
   <footer>
@@ -264,15 +122,6 @@
   </footer>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('active');
-    }
-
-    function setLanguage(lang) {
-      alert('Language switched to: ' + lang);
-    }
-
     function verifyProduct() {
       const code = document.getElementById('productCode').value.trim();
       const resultBox = document.getElementById('verificationResult');

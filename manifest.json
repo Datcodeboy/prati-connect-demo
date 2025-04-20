@@ -1,18 +1,16 @@
 {
   "name": "Prati-Connect",
-  "short_name": "Prati",
+  "short_name": "PratiConnect",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#2a0f4c",
   "theme_color": "#6A0DAD",
-  "description": "Smart serialization and product verification platform for Prati-Donaduzzi.",
+  "description": "Smart Serialization and Verification of Medications",
   "icons": [
     {
       "src": "https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
-}
-
 }

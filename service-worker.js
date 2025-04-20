@@ -1,22 +1,12 @@
-const CACHE_NAME = 'prati-connect-cache-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
-];
-
-self.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(urlsToCache);
-    })
-  );
+self.addEventListener("install", event => {
+  console.log("Service Worker installing...");
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request);
-    })
-  );
+self.addEventListener("activate", event => {
+  console.log("Service Worker activated.");
+});
+
+self.addEventListener("fetch", event => {
+  // Optional: custom fetch handling
 });
