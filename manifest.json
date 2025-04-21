@@ -5,6 +5,7 @@
   "display": "standalone",
   "background_color": "#2a0f4c",
   "theme_color": "#6A0DAD",
+  "description": "Smart serialization and multilingual medication info with advanced safety tools.",
   "icons": [
     {
       "src": "https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg",
@@ -13,6 +14,7 @@
     }
   ]
 }
+
 
 
 

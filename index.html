@@ -4,146 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prati-Connect Demo</title>
-  <link rel="icon" href="https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg" type="image/jpeg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#6A0DAD">
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #2a0f4c;
-      margin: 0;
-      padding: 0;
-      color: white;
-    }
-    header {
-      background: #6A0DAD;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    header img {
-      height: 60px;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-    main {
-      padding: 2rem;
-      max-width: 800px;
-      margin: auto;
-      background: #3b1e5e;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    }
-    .qr-input, .product-auth, .feedback {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .qr-input input, .product-auth input, .feedback input, .feedback textarea, .lang-select {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    .btn {
-      padding: 0.5rem 1rem;
-      background: #6A0DAD;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-    .product-info {
-      margin-top: 2rem;
-    }
-    .response-box {
-      margin-top: 1rem;
-      padding: 1rem;
-      background-color: #563d7c;
-      border-radius: 6px;
-    }
-    #reader {
-      width: 100%;
-      max-width: 400px;
-      margin: auto;
-    }
-    footer {
-      background: #6A0DAD;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #ddd0ff;
-      text-decoration: none;
-    }
-    @media (max-width: 600px) {
-      main {
-        padding: 1rem;
-        margin: 1rem;
-      }
-      .qr-input input, .btn, select {
-        font-size: 1rem;
-        padding: 0.75rem;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      h2 {
-        font-size: 1.25rem;
-      }
-    }
+    body { font-family: Arial, sans-serif; background: #2a0f4c; margin: 0; padding: 0; color: white; }
+    header { background: #6A0DAD; color: white; padding: 1rem; text-align: center; }
+    main { padding: 2rem; max-width: 800px; margin: auto; background: #3b1e5e; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
+    .btn { padding: 0.5rem 1rem; background: #6A0DAD; color: white; border: none; cursor: pointer; border-radius: 5px; font-weight: bold; }
+    .response-box { margin-top: 1rem; padding: 1rem; background-color: #563d7c; border-radius: 6px; }
+    .feature-buttons button { margin: 0.25rem 0; width: 100%; text-align: left; }
+    .lang-select { font-size: 1rem; padding: 0.5rem; margin-top: 1rem; }
   </style>
 </head>
 <body>
   <header>
-    <img src="https://raichu-uploads.s3.amazonaws.com/logo_prati-donaduzzi_I0eXhm.jpg" alt="Prati-Donaduzzi Logo" />
     <h1>Prati-Connect</h1>
     <p>Smart Serialization & Multilingual Product Info</p>
   </header>
-
   <main>
-    <section class="product-auth">
+    <section>
       <h2>🔍 Verify Your Medication</h2>
-      <p>Enter the product code to check authenticity:</p>
       <input type="text" id="productCode" placeholder="Enter Product Code" />
       <button class="btn" onclick="verifyProduct()">Verify</button>
       <div id="verificationResult" class="response-box"></div>
-
-      <label for="languageSelect">🌐 Select Language:</label>
+      <label for="languageSelect">🌐 Language (🏳️‍🌈)</label>
       <select id="languageSelect" class="lang-select" onchange="translateProductInfo()">
-        <option value="en">English</option>
-        <option value="pt">Português</option>
-        <option value="fr">Français</option>
-        <option value="es">Español</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="pt">🇧🇷 Português</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="es">🇪🇸 Español</option>
       </select>
     </section>
 
-    <section class="qr-input">
-      <h2>📷 Scan QR Code</h2>
-      <div id="reader"></div>
-    </section>
-
-    <section class="feedback">
-      <h2>💬 Feedback</h2>
-      <p>Let us know about your experience:</p>
-      <input type="text" placeholder="Your Name" />
-      <input type="email" placeholder="Your Email" />
-      <textarea rows="4" placeholder="Your Feedback"></textarea>
-      <button class="btn">Submit Feedback</button>
+    <section class="feature-buttons">
+      <h2>🔧 Features</h2>
+      <button class="btn" onclick="downloadPDF()">🧾 Download Product Leaflet (PDF)</button>
+      <button class="btn" onclick="readAloud()">📣 Listen to Leaflet (Read Aloud)</button>
+      <button class="btn" onclick="reportAdverseReaction()">🧪 Report Adverse Reaction</button>
+      <button class="btn" onclick="checkDrugInteraction()">❗ Check Drug Interactions</button>
+      <button class="btn" onclick="trackFraudScan()">🕵️ Anti-Fraud Scan Tracker</button>
+      <button class="btn" onclick="getLocation()">🌍 Show Distributed Location</button>
     </section>
   </main>
-
-  <footer>
-    <p>&copy; 2025 Albert Tchancy Pierre Paul. All rights reserved. | 📧 Datcodeboy@null.net | 📞 +55(45)9 9912-5778 9</p>
-  <p><em>unofficial website</em></p>
-  </footer>
-
   <script>
     const medications = {
       "PRT123456789": {
@@ -178,38 +81,51 @@
       const code = document.getElementById('productCode').value.trim();
       const resultBox = document.getElementById('verificationResult');
       currentCode = code;
-
-      if (!code) {
-        resultBox.innerText = "Please enter a product code.";
-        resultBox.style.color = "#FFD700";
+      if (!code || !medications[code]) {
+        resultBox.innerHTML = "❌ Code not recognized.";
         return;
       }
-
       const med = medications[code];
-      if (med) {
-        const lang = document.getElementById('languageSelect').value;
-        resultBox.innerHTML = `✅ <strong>${med.name}</strong><br>
-          ${med.description[lang]}<br>
-          <b>Batch:</b> ${med.batch}<br>
-          <b>Expiration:</b> ${med.expiration}<br>
-          <img src="${med.image}" alt="${med.name}" style="margin-top:10px; max-width: 100%; border-radius: 6px;">`;
-        resultBox.style.color = "#00FF7F";
-      } else {
-        resultBox.innerText = "❌ Code not recognized. Please check and try again.";
-        resultBox.style.color = "#FF6347";
-      }
+      const lang = document.getElementById('languageSelect').value;
+      resultBox.innerHTML = `✅ <strong>${med.name}</strong><br>
+        ${med.description[lang]}<br>
+        <b>Batch:</b> ${med.batch}<br>
+        <b>Expiration:</b> ${med.expiration}<br>
+        <img src="${med.image}" alt="${med.name}" style="margin-top:10px; max-width:100%; border-radius:6px;">`;
     }
 
     function translateProductInfo() {
-      if (!currentCode || !medications[currentCode]) return;
-      verifyProduct();
+      if (currentCode && medications[currentCode]) verifyProduct();
     }
 
-    const html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
-    html5QrcodeScanner.render((decodedText, decodedResult) => {
-      document.getElementById('productCode').value = decodedText;
-      verifyProduct();
-    });
+    function downloadPDF() {
+      alert("PDF download simulation. (Hook to actual PDF files in backend.)");
+    }
+
+    function readAloud() {
+      if (!currentCode || !medications[currentCode]) return alert("No medication selected");
+      const lang = document.getElementById('languageSelect').value;
+      const msg = new SpeechSynthesisUtterance(medications[currentCode].description[lang]);
+      speechSynthesis.speak(msg);
+    }
+
+    function reportAdverseReaction() {
+      alert("Redirecting to Adverse Reaction Report page (not implemented).");
+    }
+
+    function checkDrugInteraction() {
+      alert("Checking drug interaction (stub function).");
+    }
+
+    function trackFraudScan() {
+      alert("This scan is tracked in the backend for fraud monitoring.");
+    }
+
+    function getLocation() {
+      navigator.geolocation.getCurrentPosition(pos => {
+        alert(`Device location:\nLatitude: ${pos.coords.latitude}\nLongitude: ${pos.coords.longitude}`);
+      }, err => alert("Location access denied or unavailable."));
+    }
   </script>
 </body>
 </html>
